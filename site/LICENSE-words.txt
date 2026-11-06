@@ -1,0 +1,9 @@
+Il file words.txt deriva da Morph-it! 0.4.8, lessico morfologico dell'italiano
+di Marco Baroni ed Eros Zanchetta, filtrato per questa applicazione.
+
+Licenza: Creative Commons Attribuzione - Condividi allo stesso modo 2.0
+https://creativecommons.org/licenses/by-sa/2.0/
+
+Fonte: https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it
+Modifiche: selezione delle forme ammesse dal gioco, rimozione dei duplicati,
+aggiunta del lemma quando differisce dalla forma.
