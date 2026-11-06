@@ -158,7 +158,7 @@ Expected: PASS.
 
 - [ ] **Step 5: Implementare `tools/build-words.mjs` e generare il file**
 
-Legge il sorgente con `latin1`, scarta le righe senza tre colonne, scrive `site/words.txt` in UTF-8 e stampa il numero di righe e i byte. Prima copia `morph-it_048.txt` dall'archivio già scaricato in `data/raw/` (cartella esclusa da git): `C:\Users\fcusc\AppData\Local\Temp\claude\0b2c09c01bc1e2ab\fe00a1fe-0670-4e8b-bb01-de9571fbe01d\scratchpad\morphit\x\current_version\morph-it_048.txt`.
+Legge il sorgente con `latin1`, scarta le righe senza tre colonne, scrive `site/words.txt` in UTF-8 e stampa il numero di righe e i byte. Prima copia `morph-it_048.txt` dall'archivio scaricato in `data/raw/` (cartella esclusa da git).
 
 Run: `node tools/build-words.mjs data/raw/morph-it_048.txt`
 Expected: tra 30.000 e 70.000 righe, meno di 1 MB. Con `grep -xE 'amare|tiara|essere|fare' site/words.txt` compaiono tutte, con `grep -cxE 'amo|Roma|dalla'` il risultato è 0. *Amo* resta assente perché Morph-it! lo ha solo come verbo.
