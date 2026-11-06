@@ -1,11 +1,18 @@
-import { applyCorrections, gridError, parseWords, solve } from './solver.js';
+import { applyCorrections, dictionaryUrl, gridError, normalize, parseWords, solve } from './solver.js';
 import { cleanLetter } from './input.js';
 import { createStore } from './storage.js';
 
 const CENTER_INDEX = 3;
+const LONG_PRESS_MS = 500;
+const MOVE_TOLERANCE_PX = 10;
 const GRID_MESSAGES = {
   incompleta: 'Inserisci le 7 lettere',
   doppie: 'Ci sono lettere doppie',
+};
+const ADD_MESSAGES = {
+  ok: 'Parola aggiunta',
+  corta: 'Servono almeno 4 lettere',
+  invalida: 'Usa solo lettere',
 };
 
 const safeStorage = () => {
@@ -21,9 +28,15 @@ const gridEl = document.getElementById('grid');
 const statusEl = document.getElementById('status');
 const apegrammiEl = document.getElementById('apegrammi');
 const wordsEl = document.getElementById('words');
+const menu = document.getElementById('word-menu');
+const messageEl = document.getElementById('corrections-message');
 
 let lexicon = null;
 let cells = [];
+let shownWords = new Map();
+let menuWord = null;
+let press = null;
+let ignoreNextClick = false;
 
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
@@ -84,6 +97,7 @@ function render() {
   }
   const words = applyCorrections(lexicon, store.getCorrections());
   const result = solve(words, letters, center);
+  shownWords = new Map(words.map((w) => [w.norm, w]));
   renderStatus(result);
   renderResult(result);
 }
@@ -141,8 +155,135 @@ function buildGrid() {
 function onWordClick(event) {
   const button = event.target.closest('.word');
   if (!button) return;
+  if (ignoreNextClick) {
+    ignoreNextClick = false;
+    return;
+  }
   store.toggleStruck(button.dataset.norm);
   render();
+}
+
+function openMenu(norm) {
+  menuWord = shownWords.get(norm);
+  if (!menuWord || menu.open) return;
+  document.getElementById('menu-word').textContent = menuWord.display;
+  document.getElementById('menu-dictionary').href = dictionaryUrl(menuWord);
+  menu.showModal();
+}
+
+function cancelPress() {
+  if (press) clearTimeout(press.timer);
+  press = null;
+}
+
+function onPointerDown(event) {
+  ignoreNextClick = false;
+  cancelPress();
+  const button = event.target.closest('.word');
+  if (!button || event.button !== 0) return;
+  press = {
+    x: event.clientX,
+    y: event.clientY,
+    timer: setTimeout(() => {
+      press = null;
+      ignoreNextClick = true;
+      openMenu(button.dataset.norm);
+    }, LONG_PRESS_MS),
+  };
+}
+
+function onPointerMove(event) {
+  if (!press) return;
+  const distance = Math.hypot(event.clientX - press.x, event.clientY - press.y);
+  if (distance > MOVE_TOLERANCE_PX) cancelPress();
+}
+
+function onContextMenu(event) {
+  const button = event.target.closest('.word');
+  if (!button) return;
+  event.preventDefault();
+  cancelPress();
+  ignoreNextClick = true;
+  openMenu(button.dataset.norm);
+}
+
+function renderCorrections() {
+  const { rejected, added } = store.getCorrections();
+  const total = rejected.length + added.length;
+  const items = [
+    ...added.map((word) => [word, 'aggiunta']),
+    ...rejected.map((word) => [word, 'rifiutata']),
+  ].map(([word, kind]) => {
+    const item = document.createElement('li');
+    const label = document.createElement('span');
+    const tag = document.createElement('small');
+    const undo = document.createElement('button');
+    label.textContent = `${word} `;
+    tag.textContent = kind;
+    label.append(tag);
+    undo.type = 'button';
+    undo.textContent = 'Annulla';
+    undo.addEventListener('click', () => {
+      store.removeCorrection(normalize(word));
+      refresh();
+    });
+    item.append(label, undo);
+    return item;
+  });
+  document.getElementById('corrections-list').replaceChildren(...items);
+  document.querySelector('#corrections summary').textContent = `Correzioni (${total})`;
+}
+
+function refresh() {
+  renderCorrections();
+  render();
+}
+
+function onAdd(event) {
+  event.preventDefault();
+  const field = document.getElementById('add-word');
+  const outcome = store.add(field.value);
+  messageEl.textContent = ADD_MESSAGES[outcome];
+  if (outcome === 'ok') field.value = '';
+  refresh();
+}
+
+function exportCorrections() {
+  const blob = new Blob([store.exportCorrections()], { type: 'application/json' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'apegramma-correzioni.json';
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+async function importCorrections(event) {
+  const [file] = event.target.files;
+  if (!file) return;
+  const imported = store.importCorrections(await file.text());
+  messageEl.textContent = imported ? 'Correzioni importate' : 'File non valido';
+  event.target.value = '';
+  refresh();
+}
+
+function bindEvents() {
+  const main = document.querySelector('main');
+  main.addEventListener('click', onWordClick);
+  main.addEventListener('pointerdown', onPointerDown);
+  main.addEventListener('pointermove', onPointerMove);
+  main.addEventListener('pointerup', cancelPress);
+  main.addEventListener('pointercancel', cancelPress);
+  main.addEventListener('contextmenu', onContextMenu);
+
+  document.getElementById('menu-close').addEventListener('click', () => menu.close());
+  document.getElementById('menu-reject').addEventListener('click', () => {
+    store.reject(menuWord.norm);
+    menu.close();
+    refresh();
+  });
+  document.getElementById('add-form').addEventListener('submit', onAdd);
+  document.getElementById('export').addEventListener('click', exportCorrections);
+  document.getElementById('import').addEventListener('change', importCorrections);
 }
 
 async function loadLexicon() {
@@ -157,6 +298,7 @@ async function loadLexicon() {
 }
 
 buildGrid();
-document.querySelector('main').addEventListener('click', onWordClick);
+bindEvents();
+renderCorrections();
 statusEl.textContent = 'Carico le parole…';
 loadLexicon();

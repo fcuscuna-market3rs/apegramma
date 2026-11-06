@@ -127,6 +127,103 @@ h2, h3 {
   text-decoration: line-through;
 }
 
+dialog button, dialog .button, details button, details .button {
+  display: block;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+dialog {
+  width: min(320px, calc(100vw - 32px));
+  border: 0;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+dialog::backdrop { background: rgb(0 0 0 / 50%); }
+
+dialog h2 {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-size: 1.2rem;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: none;
+}
+
+dialog button, dialog .button { width: 100%; margin-top: 8px; }
+
+details {
+  margin-top: 24px;
+  padding-top: 12px;
+  border-top: 1px solid var(--surface);
+}
+
+summary {
+  min-height: 32px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+details label:not(.button) {
+  display: block;
+  margin: 8px 0 4px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+#add-word {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--muted);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+}
+
+#corrections-message {
+  min-height: 1.4em;
+  margin: 8px 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+#corrections-list {
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+#corrections-list li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+
+#corrections-list span { overflow-wrap: anywhere; }
+#corrections-list small { color: var(--muted); }
+
 footer {
   color: var(--muted);
   font-size: 0.8rem;

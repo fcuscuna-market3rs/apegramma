@@ -19,10 +19,31 @@
 
     <section id="words"></section>
 
-    <details id="corrections"></details>
+    <details id="corrections">
+      <summary>Correzioni</summary>
+      <form id="add-form">
+        <label for="add-word">Aggiungi parola che manca</label>
+        <div class="row">
+          <input id="add-word" type="text" autocomplete="off" autocapitalize="none" spellcheck="false">
+          <button type="submit">Aggiungi</button>
+        </div>
+      </form>
+      <p id="corrections-message" role="status"></p>
+      <ul id="corrections-list"></ul>
+      <div class="row">
+        <button type="button" id="export">Esporta correzioni</button>
+        <label class="button" for="import">Importa correzioni</label>
+        <input id="import" type="file" accept="application/json,.json" hidden>
+      </div>
+    </details>
   </main>
 
-  <dialog id="word-menu"></dialog>
+  <dialog id="word-menu">
+    <h2 id="menu-word"></h2>
+    <a id="menu-dictionary" class="button" target="_blank" rel="noopener">Controlla sul dizionario</a>
+    <button type="button" id="menu-reject">Rifiutata dal gioco</button>
+    <button type="button" id="menu-close">Chiudi</button>
+  </dialog>
 
   <footer>
     <p>Elenco non ufficiale: può differire da quello del gioco del Corriere della Sera.</p>
