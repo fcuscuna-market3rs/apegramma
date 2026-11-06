@@ -302,3 +302,4 @@ bindEvents();
 renderCorrections();
 statusEl.textContent = 'Carico le parole…';
 loadLexicon();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');

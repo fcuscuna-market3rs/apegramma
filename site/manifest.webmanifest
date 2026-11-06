@@ -1,0 +1,13 @@
+{
+  "name": "Apegramma",
+  "short_name": "Apegramma",
+  "lang": "it",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fbf8f0",
+  "theme_color": "#e8b423",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
