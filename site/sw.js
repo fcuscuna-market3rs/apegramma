@@ -1,4 +1,4 @@
-const CACHE = 'apegramma-v2';
+const CACHE = 'apegramma-v3';
 const FILES = [
   './',
   'index.html',

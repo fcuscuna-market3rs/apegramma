@@ -24311,6 +24311,9 @@ ipogea	ipogeo
 ipogee	ipogeo
 ipogei	ipogeo
 ipogeo
+ipostatizzata
+ipostatizzati
+ipostatizzato
 ipoteca
 ipotecata	ipotecare
 ipotecate	ipotecare
@@ -43369,6 +43372,7 @@ spazio
 spaziosa	spazioso
 spaziose	spazioso
 spaziosi	spazioso
+spaziosità
 spazioso
 spazzaneve
 spazzare

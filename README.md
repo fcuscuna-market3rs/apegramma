@@ -17,14 +17,11 @@ Scarica `morph-it.tgz` dalla [pagina di Morph-it!](https://docs.sslmit.unibo.it/
 estrai `morph-it_048.txt` in `data/raw/`, poi esegui:
 
 ```bash
-node tools/build-words.mjs data/raw/morph-it_048.txt
+node tools/build-words.mjs data/raw/morph-it_048.txt tools/corrections.json
 ```
 
-Per incorporare le correzioni esportate dall'app, passa il file come secondo argomento:
-
-```bash
-node tools/build-words.mjs data/raw/morph-it_048.txt apegramma-correzioni.json
-```
+Le parole confermate sul gioco stanno in `tools/corrections.json`: riporta lì anche quelle esportate dall'app
+(`apegramma-correzioni.json`), altrimenti si perdono a ogni rigenerazione.
 
 Le regole di filtro stanno in `tools/lexicon-filter.mjs`. Dopo ogni modifica ai file di `site/`, incrementa
 `CACHE` in `site/sw.js`, altrimenti i telefoni continuano a usare la versione precedente.
