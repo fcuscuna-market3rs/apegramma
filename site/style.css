@@ -1,0 +1,136 @@
+:root {
+  --bg: #fbf8f0;
+  --surface: #f0ebdd;
+  --ink: #221f18;
+  --muted: #6d675a;
+  --honey: #e8b423;
+  --honey-soft: #fbedc2;
+  --struck: #a8a292;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1913;
+    --surface: #2c2920;
+    --ink: #f3eee0;
+    --muted: #aea793;
+    --honey: #e8b423;
+    --honey-soft: #453814;
+    --struck: #6f6a5b;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+main, footer {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+#grid input {
+  width: 100%;
+  aspect-ratio: 1 / 1.1;
+  min-width: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#grid input.center {
+  background: var(--honey);
+  color: #221f18;
+}
+
+#grid input:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+#status {
+  margin: 12px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+h2, h3 {
+  margin: 16px 0 6px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+#apegrammi {
+  padding: 2px 12px 12px;
+  border-radius: 12px;
+  background: var(--honey-soft);
+}
+
+#apegrammi h2 { margin-top: 10px; }
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.word {
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#apegrammi .word {
+  background: var(--bg);
+  font-weight: 600;
+}
+
+.word[aria-pressed='true'] {
+  color: var(--struck);
+  text-decoration: line-through;
+}
+
+footer {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+footer p { margin: 0 0 6px; }
+footer a { color: inherit; }

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apegramma</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Apegramma</h1>
+    <div id="grid" role="group" aria-label="Lettere della griglia, la quarta è la centrale"></div>
+    <p id="status" role="status"></p>
+
+    <section id="apegrammi" hidden>
+      <h2>Apegrammi</h2>
+      <div class="list"></div>
+    </section>
+
+    <section id="words"></section>
+
+    <details id="corrections"></details>
+  </main>
+
+  <dialog id="word-menu"></dialog>
+
+  <footer>
+    <p>Elenco non ufficiale: può differire da quello del gioco del Corriere della Sera.</p>
+    <p>
+      Lessico: <a href="https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it" rel="noopener">Morph-it!</a>
+      di Marco Baroni ed Eros Zanchetta, filtrato per questa app, con licenza
+      <a href="https://creativecommons.org/licenses/by-sa/2.0/" rel="noopener">CC BY-SA 2.0</a>.
+    </p>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
