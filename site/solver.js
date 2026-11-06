@@ -29,6 +29,16 @@ export function parseWords(text) {
     });
 }
 
+export function applyCorrections(words, corrections) {
+  const rejected = new Set(corrections.rejected);
+  const kept = words.filter((w) => !rejected.has(w.norm));
+  const known = new Set(kept.map((w) => w.norm));
+  const added = corrections.added
+    .map((display) => makeWord(display))
+    .filter((w) => !known.has(w.norm));
+  return [...kept, ...added];
+}
+
 export function gridError(letters, center) {
   const filled = letters.filter(Boolean);
   if (filled.length < GRID_SIZE) return 'incompleta';
