@@ -5,7 +5,7 @@ import { normalize, maskOf, parseWords, gridError, solve, dictionaryUrl } from '
 const letters = ['a', 'c', 'e', 'i', 'n', 'r', 't'];
 const words = parseWords('tir\ncena\ncitra\ntiara\ntiare\ntinta\ncantiere\nzitta\ncarità\ncerti\tcerto');
 const result = solve(words, letters, 'i');
-const found = result.byLength.flatMap(([, list]) => list.map((w) => w.norm));
+const found = result.byInitial.flatMap(([, list]) => list.map((w) => w.norm));
 
 test('normalize lowercases and strips accents', () => {
   assert.equal(normalize('Carità'), 'carita');
@@ -61,9 +61,18 @@ test('apegramma may be longer than 7 letters', () => {
   assert.deepEqual(long.apegrammi.map((w) => w.norm), ['intrecciare']);
 });
 
-test('byLength is sorted by length then alphabetically', () => {
-  assert.deepEqual(result.byLength.map(([n]) => n), [5, 6, 8]);
-  assert.deepEqual(result.byLength[0][1].map((w) => w.norm), ['certi', 'citra', 'tiara', 'tiare', 'tinta']);
+test('byInitial is sorted by initial then alphabetically', () => {
+  assert.deepEqual(result.byInitial.map(([initial]) => initial), ['c', 't']);
+  assert.deepEqual(
+    result.byInitial[0][1].map((w) => w.norm),
+    ['cantiere', 'carita', 'certi', 'citra'],
+  );
+  assert.deepEqual(result.byInitial[1][1].map((w) => w.norm), ['tiara', 'tiare', 'tinta']);
+});
+
+test('byInitial files an accented initial under its plain letter', () => {
+  const accented = solve(parseWords('èrta\nerti'), ['a', 'e', 'i', 'n', 'o', 'r', 't'], 'r');
+  assert.deepEqual(accented.byInitial.map(([initial]) => initial), ['e']);
 });
 
 test('total counts every word found', () => {

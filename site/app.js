@@ -62,7 +62,7 @@ function renderStatus(result) {
   const parts = [
     plural(result.total, 'parola', 'parole'),
     plural(result.apegrammi.length, 'apegramma', 'apegrammi'),
-    plural(countStruck(result.byLength), 'barrata', 'barrate'),
+    plural(countStruck(result.byInitial), 'barrata', 'barrate'),
   ];
   statusEl.textContent = parts.join(' · ');
 }
@@ -70,9 +70,9 @@ function renderStatus(result) {
 function renderResult(result) {
   apegrammiEl.hidden = result.apegrammi.length === 0;
   fillList(apegrammiEl.querySelector('.list'), result.apegrammi);
-  wordsEl.replaceChildren(...result.byLength.flatMap(([length, words]) => {
+  wordsEl.replaceChildren(...result.byInitial.flatMap(([initial, words]) => {
     const heading = document.createElement('h3');
-    heading.textContent = `${length} lettere`;
+    heading.textContent = initial.toUpperCase();
     const list = document.createElement('div');
     list.className = 'list';
     fillList(list, words);

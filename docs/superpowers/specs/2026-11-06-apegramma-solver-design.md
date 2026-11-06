@@ -116,7 +116,7 @@ contano come una parola sola.
 - In alto una riga di sette caselle con la centrale evidenziata. Ogni lettera si digita in un tocco.
 - Una riga con il numero di parole, di apegrammi e di barrate.
 - Riquadro in evidenza con gli apegrammi.
-- Sotto, tutte le parole raggruppate per lunghezza e in ordine alfabetico.
+- Sotto, tutte le parole raggruppate per iniziale e in ordine alfabetico.
 - Un tocco barra o ripristina una parola.
 - Tenendo premuta una parola si apre un menu con due voci: controllarla sul dizionario del Corriere, tramite
   un semplice link alla pagina (`dizionari.corriere.it/dizionario_italiano/<LETTERA>/<parola>.shtml`) aperto

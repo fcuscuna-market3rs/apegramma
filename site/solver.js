@@ -58,15 +58,15 @@ export function solve(words, letters, center) {
 
   const groups = new Map();
   for (const word of found) {
-    const length = word.norm.length;
-    if (!groups.has(length)) groups.set(length, []);
-    groups.get(length).push(word);
+    const initial = word.norm[0];
+    if (!groups.has(initial)) groups.set(initial, []);
+    groups.get(initial).push(word);
   }
 
   return {
     total: found.length,
     apegrammi: found.filter((w) => w.mask === gridMask),
-    byLength: [...groups.entries()].sort(([a], [b]) => a - b),
+    byInitial: [...groups.entries()],
   };
 }
 
