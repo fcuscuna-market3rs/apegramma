@@ -1,5 +1,5 @@
 import { applyCorrections, dictionaryUrl, gridError, normalize, parseWords, solve } from './solver.js';
-import { cleanLetter } from './input.js';
+import { nextEmptyIndex, typedLetter } from './input.js';
 import { createStore } from './storage.js';
 
 const CENTER_INDEX = 3;
@@ -103,9 +103,9 @@ function render() {
 }
 
 function focusNext(from) {
-  const next = cells.slice(from + 1).find((cell) => !cell.value)
-    ?? cells.find((cell) => !cell.value);
-  next?.focus();
+  const next = nextEmptyIndex(cells.map((cell) => cell.value), from);
+  if (next === -1) cells[from].blur();
+  else cells[next].focus();
 }
 
 function saveGrid() {
@@ -116,7 +116,7 @@ function saveGrid() {
 function onCellInput(event) {
   const cell = event.target;
   const index = cells.indexOf(cell);
-  cell.value = cleanLetter(cell.value);
+  cell.value = typedLetter(event.data, cell.value);
   saveGrid();
   if (cell.value) focusNext(index);
 }

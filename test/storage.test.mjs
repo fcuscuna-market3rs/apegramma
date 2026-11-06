@@ -129,3 +129,12 @@ test('applyCorrections removes rejected and adds new words once', () => {
   assert.deepEqual(out.map((w) => w.norm), ['tiara', 'carita']);
   assert.equal(out[1].mask, maskOf('carita'));
 });
+
+test('struck words survive a duplicate-letter typo', () => {
+  const store = createStore(memory());
+  store.setGrid(gridA);
+  store.toggleStruck('tiara');
+  store.setGrid(['a', 'c', 'e', 'i', 'n', 'r', 'a']);
+  store.setGrid(gridA);
+  assert.equal(store.isStruck('tiara'), true);
+});

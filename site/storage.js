@@ -27,7 +27,7 @@ const isStringList = (value) => Array.isArray(value) && value.every((x) => typeo
 const isCorrections = (value) => isStringList(value?.rejected) && isStringList(value?.added);
 
 function gridKey(letters) {
-  if (!letters.every(Boolean)) return null;
+  if (!letters.every(Boolean) || new Set(letters).size < letters.length) return null;
   const outer = letters.filter((_, i) => i !== CENTER_INDEX).sort();
   return `${letters[CENTER_INDEX]}:${outer.join('')}`;
 }
